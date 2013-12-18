@@ -187,6 +187,8 @@ void nrf_init(void) {
     status=nrf_SPI_Read(STATUS);
     nrf_SPI_RW_Reg(WRITE_REG + STATUS, status);
 
+    nrf_SPI_RW_Reg(WRITE_REG + SETUP_AW, 0x3);
+
     CE = nrf_SET;
 }
 
@@ -258,6 +260,10 @@ char nrf_disablePipe(char pipe) {
     Delay10TCYx(3);
     CE = nrf_SET;
     return pipeStatus;
+}
+
+char nrf_readRegister(char loc) {
+    return nrf_SPI_Read(loc);
 }
 
 

@@ -16,3 +16,4 @@ void nrf_setTxAddr(char addr);
 void nrf_setRxAddr(char pipe, char addr);
 char nrf_enablePipe(char pipe);
 char nrf_disablePipe(char pipe);
+char nrf_readRegister(char loc);
