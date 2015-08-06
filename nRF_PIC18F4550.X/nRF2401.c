@@ -1,6 +1,6 @@
 #include <xc.h>
 #include "nRF2401.h"
-#include "constants.h"
+
 
 //****************************************************/
 // SPI(nRF24L01) commands

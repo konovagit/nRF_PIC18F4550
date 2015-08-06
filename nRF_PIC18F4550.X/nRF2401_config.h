@@ -1,4 +1,4 @@
-#include "p18f25k80.h"
+#include <p18f4550.h>
 
 // Pin Definitions
 #define CE			PORTCbits.RC0
