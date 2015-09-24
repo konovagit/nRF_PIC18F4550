@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 #include <p18f4550.h>
-
+#include "nRF2401.h"
 
 // PIC18F4550 Configuration Bit Settings
 
@@ -78,6 +79,11 @@
 
 #define LED LATAbits.LA1
 
+unsigned char tx_buf[MAX_PAYLOAD]="Bonjour";
+unsigned char rx_buf[MAX_PAYLOAD];
+
+//unsigned char SPI_Master_write_read_byte_MSSP(unsigned char dato);
+
 int main(int argc, char** argv) 
 {
     /*Configuration internal clock to 8Mhz*/
@@ -85,8 +91,43 @@ int main(int argc, char** argv)
     OSCCONbits.IRCF1 = 1;
     OSCCONbits.IRCF2 = 1;
     
-    TRISAbits.RA1=0; //output
+    TRISAbits.RA1=0; //output LED
+    
     LED=1;
-
+    
+   
+    
+     //Config nrf
+    ADCON1bits.PCFG=0xF; //All digital
+    TRIS_CE = 0;
+    TRIS_CSN = 0;
+    TRIS_IRQ = 1;
+    TRIS_SCK = 0;
+    TRIS_MISO = 1;
+    TRIS_MOSI = 0;
+    
+    nrf_init();
+    __delay_ms(50);
+    nrf_txmode();
+    
+    unsigned char reponse;
+    
+    while(1)
+    {
+         reponse = nrf_send(&tx_buf,&rx_buf);
+         if(reponse){ LED=0;}
+         for(int i=0;i<10;i++)
+         {    
+         __delay_ms(60);
+         }
+         reponse = nrf_send(&tx_buf,&rx_buf);
+         if(reponse){ LED=1;}
+         for(int i=0;i<10;i++)
+         {    
+         __delay_ms(60);
+         }
+    }
+  
     return (EXIT_SUCCESS);
 }
+
